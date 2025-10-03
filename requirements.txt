@@ -1,0 +1,4 @@
+Flask==3.0.3
+Flask-WTF==1.2.1
+gunicorn==22.0.0
+filelock==3.16.1
