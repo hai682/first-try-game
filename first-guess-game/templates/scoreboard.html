@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>排行榜 - 猜数字游戏</title>
+</head>
+<body>
+  <h1>排行榜</h1>
+  {% set diff_names = {'easy': '简单', 'medium': '中等', 'hard': '困难'} %}
+  {% for diff, entries in scoreboard.items() %}
+    <h2>{{ diff_names.get(diff, diff) }} 难度</h2>
+    {% if entries %}
+      <table border="1" cellpadding="5" cellspacing="0">
+        <tr><th>玩家</th><th>尝试次数</th></tr>
+        {% for entry in entries %}
+          <tr>
+            <td>{{ entry.name }}</td>
+            <td>{{ entry.attempts }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>（暂无记录）</p>
+    {% endif %}
+  {% endfor %}
+  <p><a href="{{ url_for('start_game') }}">开始新游戏</a></p>
+</body>
+</html>

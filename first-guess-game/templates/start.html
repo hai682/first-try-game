@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>选择难度 - 猜数字游戏</title>
+</head>
+<body>
+  <h1>选择游戏难度</h1>
+  <form method="post" action="{{ url_for('start_game') }}">
+    <label>玩家名称: <input type="text" name="name" value="{{ session.get('name', '') }}"></label><br><br>
+    <p>选择难度:</p>
+    <label><input type="radio" name="difficulty" value="easy" checked> 简单 (1-20, 5次)</label><br>
+    <label><input type="radio" name="difficulty" value="medium"> 中等 (1-50, 7次)</label><br>
+    <label><input type="radio" name="difficulty" value="hard"> 困难 (1-100, 10次)</label><br><br>
+    <button type="submit">开始游戏</button>
+  </form>
+  <p><a href="{{ url_for('index') }}">返回首页</a></p>
+</body>
+</html>
