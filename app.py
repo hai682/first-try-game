@@ -8,12 +8,11 @@ Flask Web 猜数字 · 强化版（已修复：TemplateAssertionError block 'con
 - Bootstrap 5 UI + 进度条
 - 生产部署：支持 gunicorn --preload
 
-环境变量：
-  SECRET_KEY       Flask 会话与 CSRF 密钥
-  PERSIST_BACKEND  'sqlite'（默认）或 'json'
-  DATABASE_URL     SQLite 文件路径（默认 'scores.db'）
-  JSON_PATH        JSON 存储路径（当选择 json 后端时）
-"""
+SECRET_KEY = os.getenv("SECRET_KEY", "change-me-in-production")
+PERSIST_BACKEND = os.getenv("PERSIST_BACKEND", "json").lower()
+DB_PATH = os.getenv("DATABASE_URL", "/tmp/scores.db")  # 备用，不会用到
+JSON_PATH = os.getenv("JSON_PATH", "/tmp/leaderboard.json")
+
 
 import os
 import json
