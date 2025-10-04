@@ -64,7 +64,8 @@ class ScoreForm(FlaskForm):
         validators=[
             Optional(),
             Length(min=0, max=20, message="名字最多20个字符"),
-            Regexp(r"^[\u4e00-\u9fa5A-Za-z0-9_\- ]*$", message="仅允许中英文、数字、空格、-_"),
+           Regexp("^[\\u4e00-\\u9fa5A-Za-z0-9_\\- ]*$", 
+           message="仅允许中英文、数字、空格、-_")
         ],
     )
     submit = SubmitField("提交成绩")
@@ -72,21 +73,22 @@ class ScoreForm(FlaskForm):
 
 # ==== 数据持久化（SQLite 或 JSON+文件锁）====
 def init_sqlite():
+    # 如果以后用到 SQLite，先保证目录存在（比如 /var/data 或 /data）
+    dir_ = os.path.dirname(DB_PATH)
+    if dir_:
+        os.makedirs(dir_, exist_ok=True)
+
     conn = sqlite3.connect(DB_PATH)
     try:
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS scores (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                attempts INTEGER NOT NULL,
-                label TEXT NOT NULL,
-                range_low INTEGER NOT NULL,
-                range_high INTEGER NOT NULL,
-                created_at TEXT NOT NULL
-            )
-            """
-        )
+        conn.execute("""CREATE TABLE IF NOT EXISTS scores (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            attempts INTEGER NOT NULL,
+            label TEXT NOT NULL,
+            range_low INTEGER NOT NULL,
+            range_high INTEGER NOT NULL,
+            created_at TEXT NOT NULL
+        )""")
         conn.commit()
     finally:
         conn.close()
